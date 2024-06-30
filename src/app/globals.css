@@ -105,3 +105,64 @@ a {
     color-scheme: dark;
   }
 } */
+
+.gradientAnimation{
+  width: 90%;
+  height: 50px;
+  border-radius: 10px;
+  /* background-color: #e1ecfe; */
+margin: 0 auto;
+position: relative;
+height: 70px;
+overflow: hidden;
+display: flex;
+justify-content: center;
+align-items: center;
+background: linear-gradient(135deg, #e1ecfe, #c3daf9, #a6c8f4, #8ab6ef, #4f9ae9, #357ce0);
+background-size: 400% 400%;
+animation: gradientAnimation 15s ease infinite;
+}
+
+
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  opacity: 0.7;
+  border-radius: 43%;
+  animation: waveAnimation 30s infinite linear;
+}
+
+.wave:nth-child(2) {
+  bottom: 10%;
+  animation-duration: 15s;
+  opacity: 0.5;
+}
+
+@keyframes waveAnimation {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(0) translateY(15%);
+  }
+  100% {
+    transform: translateX(50%) translateY(0);
+  }
+}
