@@ -17,7 +17,9 @@ interface DataType {
 interface SimpleTableProps {
   dataSource: DataType[];
   columns: ColumnsType<DataType>;
+  rowKey: string; 
 }
+
 
 const SimpleTable: React.FC<SimpleTableProps> = ({ dataSource, columns }) => {
   const [searchText, setSearchText] = useState('');
