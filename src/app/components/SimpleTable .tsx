@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Input, Space, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
-import type { ColumnsType } from 'antd/es/table';
 import moment from 'jalali-moment';
+import type { ColumnsType } from 'antd/es/table';
 
 interface DataType {
   key: string;
@@ -23,6 +23,10 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ dataSource, columns }) => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState<keyof DataType | ''>('');
 
+  useEffect(() => {
+    moment.locale('fa'); 
+  }, []);
+
   const handleSearch = (selectedKeys: React.Key[], confirm: () => void, dataIndex: keyof DataType) => {
     confirm();
     setSearchText(selectedKeys[0] as string);
@@ -35,7 +39,7 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ dataSource, columns }) => {
   };
 
   const formatAmount = (amount: number) => {
-    return `$${amount.toFixed(2)}`;
+    return `${amount.toLocaleString('fa-IR')} ریال`;
   };
 
   const statusRenderer = (status: number) => {
@@ -43,7 +47,7 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ dataSource, columns }) => {
       case 0:
         return 'Pending';
       case 1:
-        return 'Paid';
+        return 'پرداخت موفق';
       case 2:
         return 'Failed';
       default:
@@ -53,7 +57,7 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ dataSource, columns }) => {
 
   const formatDate = (date: string) => {
     const m = moment(date, 'jYYYY/jMM/jDD-HH:mm:ss');
-    return `${m.format('DD')} ${m.format('jMMMM')} ${m.format('HH:mm')} ${m.format('jYYYY')}`;
+    return `${m.format('jD')} ${m.format('jMMMM')} ${m.format('jYYYY')} ${m.format('HH:mm')}`;
   };
 
   const getColumnSearchProps = (dataIndex: keyof DataType) => ({
@@ -83,7 +87,7 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ dataSource, columns }) => {
       </div>
     ),
     filterIcon: (filtered: boolean) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value: string | number | boolean, record: DataType) =>
+    onFilter: (value: any, record: DataType) =>
       record[dataIndex]
         .toString()
         .toLowerCase()
@@ -125,11 +129,11 @@ const SimpleTable: React.FC<SimpleTableProps> = ({ dataSource, columns }) => {
         ...getColumnSearchProps(dataIndex),
       };
     }
-    return col;
-  });
+    return col as ColumnsType<DataType>;
+  }) as ColumnsType<DataType>; 
 
   return (
-    <Table dataSource={dataSource} columns={columnsWithRender} />
+    <Table dataSource={dataSource} columns={columnsWithRender} rowKey="key" />
   );
 };
 

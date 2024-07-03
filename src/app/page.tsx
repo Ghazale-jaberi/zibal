@@ -1,21 +1,37 @@
-"use client"; // Add this line to specify that this component should run on the client side
-import fa_IR from 'antd/es/locale/fa_IR'; // import Persian locale
+"use client"; 
+import fa_IR from 'antd/es/locale/fa_IR';
 import React, { useEffect, useState } from 'react';
 import { Input } from 'antd';
 import Navigation from "./components/Navigation";
 import SimpleTable from "../app/components/SimpleTable ";
 import MyFormModal from "../app/components/MyFormModal";
 
+interface DataSourceType {
+  key: string;
+  cardNumber: string;
+  amount: number;
+  paidAt: string;
+  status: number;  // تغییر این خط
+  trackId: number;
+  
+}
+
 export default function Home() {
-  const [dataSource, setDataSource] = useState([]);
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [dataSource, setDataSource] = useState<DataSourceType[]>([]);
+  const [filteredDataSource, setFilteredDataSource] = useState<DataSourceType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('http://localhost:3001/data');
       const data = await response.json();
-      setDataSource(data);
-      setFilteredDataSource(data); // Initialize filtered data with all data
+      const processedData = data.map((item: any) => ({
+        ...item,
+        key: item.trackId,
+        trackId: Number(item.trackId),
+        status: Number(item.status),  // تبدیل به عدد
+      }));
+      setDataSource(processedData);
+      setFilteredDataSource(processedData);
     };
 
     fetchData();
@@ -46,26 +62,26 @@ export default function Home() {
       title: 'شماره تراکنش',
       dataIndex: 'trackId',
       key: 'trackId',
-      // Add any additional configurations here for columns
     },
   ];
 
   return (
-    <div>
+    <div className='page-style'>
       <Navigation />
       <Input.Search
+      className='border-style'
         placeholder="Search by track ID"
         onChange={(e) => {
           const { value } = e.target;
           const filteredData = dataSource.filter(entry => entry.trackId.toString().includes(value));
           setFilteredDataSource(filteredData);
         }}
-        style={{ width: 300, marginBottom: 10 }}
+        style={{ width: 300, marginBottom: 10 , padding:15 }}
       />
-      <SimpleTable dataSource={filteredDataSource} columns={columns} />
-      <br></br> <br></br>
+      <SimpleTable dataSource={filteredDataSource} columns={columns} rowKey="trackId" />
 
-      <MyFormModal/>
+
+      <MyFormModal />
     </div>
   );
 }
