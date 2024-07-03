@@ -1,9 +1,10 @@
 "use client"; // Add this line to specify that this component should run on the client side
-
+import fa_IR from 'antd/es/locale/fa_IR'; // import Persian locale
 import React, { useEffect, useState } from 'react';
 import { Input } from 'antd';
 import Navigation from "./components/Navigation";
 import SimpleTable from "../app/components/SimpleTable ";
+import MyFormModal from "../app/components/MyFormModal";
 
 export default function Home() {
   const [dataSource, setDataSource] = useState([]);
@@ -62,6 +63,9 @@ export default function Home() {
         style={{ width: 300, marginBottom: 10 }}
       />
       <SimpleTable dataSource={filteredDataSource} columns={columns} />
+      <br></br> <br></br>
+
+      <MyFormModal/>
     </div>
   );
 }
