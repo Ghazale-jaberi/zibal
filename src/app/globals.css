@@ -70,7 +70,7 @@ direction: rtl;
   margin-top: 20px;
   height: 30px;
   display: flex;
-  justify-content: end;
+  justify-content: start;
   gap: 8px;
   border-bottom: 1px solid gray;
 }
@@ -103,17 +103,20 @@ direction: rtl;
   margin-top: 20px;
   height: 50px;
   display: flex;
-  justify-content: end;
+  justify-content: start;
   gap: 8px;
+  
+}
+.switch div{
+  margin-left: 10px;
 }
 
-.form{
- 
-  width: 90%;
-margin: 0 auto;
-direction: rtl;
-  gap: 8px;
+.ant-form{
+  width: 100%;
+
 }
+
+
 .form label{
   color: black;
   font-size: 16px;

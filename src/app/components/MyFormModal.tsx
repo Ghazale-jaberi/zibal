@@ -7,7 +7,7 @@ const { Option } = Select;
 
 const MyFormModal = () => {
   const [visible, setVisible] = useState(false);
-  const [form] = Form.useForm(); // Initialize form instance
+  const [form] = Form.useForm();
 
   const showModal = () => {
     setVisible(true);
@@ -15,7 +15,7 @@ const MyFormModal = () => {
 
   const handleCancel = () => {
     setVisible(false);
-    form.resetFields(); // Reset form fields
+    form.resetFields();
   };
 
   const handleOk = () => {
@@ -25,7 +25,7 @@ const MyFormModal = () => {
         console.log('Received values:', values);
         setVisible(false);
         message.success('ثبت درخواست تسویه با موفقیت انجام شد');
-        form.resetFields(); // Reset form fields
+        form.resetFields();
       })
       .catch((error) => {
         console.error('Validation failed:', error);
@@ -35,16 +35,17 @@ const MyFormModal = () => {
   const onChange = (key: string) => {
     console.log(key);
   };
-  
+
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: 'به کیف پول',
+      label: ' به حساب',
     },
     {
       key: '2',
-      label: ' به حساب',
+      label: 'به کیف پول',
     },
+
   ];
 
   const onFinishFailed = (errorInfo: any) => {
@@ -74,11 +75,12 @@ const MyFormModal = () => {
         </div>
 
         <div className='inventory'>
-          <div className='wallet-money'>
-            <p>ریال</p>
-            <span>15,000</span>
-          </div>
           <span>: موجودی فعلی</span>
+
+          <div className='wallet-money'>
+            <span>15,000</span>
+            <p>ریال</p>
+          </div>
         </div>
 
         <div className='switch'>
@@ -86,7 +88,7 @@ const MyFormModal = () => {
         </div>
 
         <Form
-          form={form} // Pass the form instance
+          form={form}
           layout="vertical"
           className='form'
           onFinish={handleOk}
@@ -103,13 +105,15 @@ const MyFormModal = () => {
               placeholder="مقصد تسویه را انتخاب کنید"
               optionFilterProp="children"
               filterOption={(input, option) =>
-                option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                (option?.children as any)?.toLowerCase().includes(input.toLowerCase())
               }
+
             >
               <Option value="main_wallet">کیف پول اصلی</Option>
               <Option value="optional_wallet">کیف پول اختیاری</Option>
               <Option value="settlement_wallet">کیف پول تسویه</Option>
             </Select>
+
           </Form.Item>
           <Form.Item
             label="مبلغ تسویه"
@@ -126,9 +130,8 @@ const MyFormModal = () => {
           </Form.Item>
           <Form.Item
             label=" توضیحات(بابت)"
-           
           >
-                <Input.TextArea />
+            <Input.TextArea />
           </Form.Item>
         </Form>
       </Modal>
