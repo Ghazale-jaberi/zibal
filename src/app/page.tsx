@@ -11,7 +11,7 @@ interface DataSourceType {
   cardNumber: string;
   amount: number;
   paidAt: string;
-  status: number;  // تغییر این خط
+  status: number;  
   trackId: number;
   
 }
@@ -78,7 +78,7 @@ export default function Home() {
         }}
         style={{ width: 300, marginBottom: 10 , padding:15 }}
       />
-      <SimpleTable dataSource={filteredDataSource} columns={columns} rowKey="trackId" />
+      <SimpleTable  dataSource={filteredDataSource} columns={columns} rowKey="trackId"  />
 
 
       <MyFormModal />
